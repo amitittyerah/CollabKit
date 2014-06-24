@@ -16,7 +16,7 @@ class Set(models.Model):
 
 class Question(models.Model):
     set = models.ForeignKey(Set)
-    name = models.CharField(max_length=128, blank=False, null=False)
+    name = models.TextField(max_length=500, blank=False, null=False)
     type = models.CharField(max_length=20, blank=False, null=False, choices=(
         ('tf', 'True or False'),
         ('mcq', 'Multiple Choice'),
@@ -46,7 +46,7 @@ class Question(models.Model):
             'type': self.type,
             'tf_answer': self.tf_answer,
             'given_answer': self.given_answer,
-            'choices': [question_answer.as_json() for question_answer in QuestionAnswerChoice.objects.all()]
+            'choices': [question_answer.as_json() for question_answer in QuestionAnswerChoice.objects.filter(question=self)]
         }
 
 
